@@ -7,11 +7,6 @@
 ehthumbs.db
 Thumbs.db
 
-# Embedded git repositories
-/DRL-Pytorch/
-/Lunar/
-/Swimmer/
-
 # Python
 __pycache__/
 *.py[cod]
