@@ -11,4 +11,8 @@ This repository contains implementation of Deep Reinforcement Learning algorithm
 - `MountCar/`: Implementation for the Mountain Car environment
 - `Lunar/`: Implementation for the Lunar Lander environment
 - `Swimmer/`: Implementation for the Swimmer environment
-- `DRL-Pytorch/`: PyTorch implementations of DRL algorithms 
+- `DRL-Pytorch/`: PyTorch implementations of DRL algorithms
+
+## Getting Started
+
+Check the individual directories for environment-specific instructions. 
