@@ -1,0 +1,3 @@
+for Lunar
+
+PYTHONPATH=$PYTHONPATH:$(pwd)/src poetry run python train_lunar.py

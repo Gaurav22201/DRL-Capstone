@@ -1,0 +1,51 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Run Python Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11.8']
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg xvfb freeglut3-dev libxcb-xinerama0 libxcb-icccm4 libxcb-image0 libxcb-render-util0 libxcb-xinerama0 libxkbcommon-x11-0 libxcb-keysyms1 libxcb-randr0
+        curl -sSL https://install.python-poetry.org | python3.11 -
+        poetry install --with 'dev'
+
+    - name: Check source with flake8
+      run: |
+        poetry run flake8 ./src ./test
+
+    - name: Test with pytest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+
+        # run without display
+        export HEADLESS=True
+
+        # uncomment below and add -s after pytest to show all debug output
+        export QT_DEBUG_PLUGINS=1
+
+        # run tests
+        poetry run coverage run --source=src --omit=src/rlai/meta/* -m pytest -m 'not will_fail_gh' ./test
+
+        # upload results to coveralls using github token above
+        poetry run coveralls --service=github
